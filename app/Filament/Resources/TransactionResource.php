@@ -51,6 +51,9 @@ class TransactionResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\IconColumn::make('kategoris.is_expense')
+                    ->label('Pengeluaran')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('kategoris.name')->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
