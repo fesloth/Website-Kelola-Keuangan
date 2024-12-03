@@ -34,7 +34,7 @@ class TransactionResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
-                Forms\Components\DatePicker::make('date')
+                Forms\Components\DatePicker::make('date_transaction')
                     ->required(),
                 Forms\Components\TextInput::make('amount')
                     ->required()
@@ -65,7 +65,7 @@ class TransactionResource extends Resource
                     ->trueColor('danger')
                     ->falseColor('success')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('date')
+                Tables\Columns\TextColumn::make('date_transaction')
                     ->date()
                     ->label('Tanggal')
                     ->sortable(),

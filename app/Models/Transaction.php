@@ -11,7 +11,7 @@ class Transaction extends Model
     use HasFactory;
 
     protected $table = 'transaction';
-    protected $fillable = ['name', 'kategoris_id', 'date', 'amount', 'note', 'image'];
+    protected $fillable = ['name', 'kategoris_id', 'date_transaction', 'amount', 'note', 'image'];
 
     public function kategoris(): BelongsTo
     {
