@@ -17,4 +17,18 @@ class Transaction extends Model
     {
         return $this->belongsTo(Kategoris::class);
     }
+
+    public function scopeExpenses($query)
+    {
+        return $query->whereHas('kategoris', function ($query) {
+            $query->where('is_expense', true);
+        });
+    }
+
+    public function scopeIncomes($query)
+    {
+        return $query->whereHas('kategoris', function ($query) {
+            $query->where('is_expense', false);
+        });
+    }
 }
