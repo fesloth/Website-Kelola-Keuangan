@@ -4,11 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
+use App\Models\Kategoris;
 use App\Models\Transaction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -49,21 +52,33 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\ImageColumn::make('kategoris.image')
+                    ->label('Kategori'),
+                Tables\Columns\TextColumn::make('kategoris.name')
+                    ->description(fn(Transaction $record): string => $record->name)
+                    ->label('Nama')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('kategoris.is_expense')
-                    ->label('Pengeluaran')
+                    ->label('Tipe')
+                    ->trueIcon('heroicon-s-arrow-up-circle')
+                    ->falseIcon('heroicon-s-arrow-down-circle')
+                    ->trueColor('danger')
+                    ->falseColor('success')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('kategoris.name')->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
+                    ->label('Tanggal')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
+                    ->money('IDR', locale: "id")
+                    ->label('Jumlah Uang')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('note')
+                    ->label('Catatan')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Gambar'),
                 // Tables\Columns\TextColumn::make('created_at')
                 //     ->dateTime()
                 //     ->sortable()
@@ -82,8 +97,8 @@ class TransactionResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
